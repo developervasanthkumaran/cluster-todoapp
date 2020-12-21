@@ -1,26 +1,49 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+<router-link to="/"
+>
+<img class='logo-img' src="./assets/logo.png" alt="logo"/>
+
+<div class="logo-title">
+  Cluster - ToDoApp
+  </div>
+
+</router-link>
+<home/>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Home from "../src/components/logical/Home";
 export default {
-  name: 'App',
   components: {
-    HelloWorld
+    home: Home,
+  },
+  created(){
+    console.log('created ',this);
   }
-}
+};
 </script>
-
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+    #app {
+      height: 100%;
+      /* background-color:gray; */
+    }
+    .logo{
+     float: left;
+    }
+   .logo-img{
+    width:100px;
+    height: 60px;
+    transition: transform .5s ease-out;
+  }
+
+  .logo-img:hover{
+    transform: rotate(-90deg);
+  }
+  .logo-title{
+    color: orange;
+    position: absolute;
+    width: 11%;
+    top: 15px;
+    left: 80px;
+    /* border: 1px solid blue; */
+  }
 </style>
