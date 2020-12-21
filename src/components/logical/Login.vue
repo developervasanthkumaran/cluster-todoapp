@@ -31,7 +31,6 @@
 </template>
 <script>
 export default {
-   props:['uname','pass'],
    computed:{
 
    }
