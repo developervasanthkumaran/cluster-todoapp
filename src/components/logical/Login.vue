@@ -59,7 +59,7 @@ export default {
         const user_profile = await getRequest("auth/profile/", {
           headers: { Authorization: "Bearer " + access_token },
         });
-   
+
         if (user_profile) {
           const name = user_profile.data.username;
           const id = user_profile.data.user_id;
@@ -68,9 +68,9 @@ export default {
             username: name,
           });
 
-          this.$store.commit('toggleUserSession');
-         this.$store.dispatch("getTodoListAsync");
-          this.$router.push('todoView');
+          this.$store.commit("toggleUserSession");
+          this.$store.dispatch("getTodoListAsync");
+          this.$router.push("todoView");
           return true;
         } else {
           alert("user not found!!");
@@ -80,7 +80,7 @@ export default {
         alert("login failed!! enter valid credentials");
         return false;
       }
-    }
+    },
   },
 };
 </script>

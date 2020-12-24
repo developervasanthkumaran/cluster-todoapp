@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import { postRequest } from '../../main'
+import { postRequest } from "../../main";
 export default {
   name: "Register",
   data() {
@@ -60,22 +60,21 @@ export default {
           email: this.email,
           password: this.password,
         };
-        let statusCode = await postRequest('users/register/',payload);
-        statusCode=statusCode.status;
+        let statusCode = await postRequest("users/register/", payload);
+        statusCode = statusCode.status;
         console.log(statusCode);
         if (statusCode) {
           if (200 >= statusCode <= 299) {
-          alert("registered successfully");
-            this.$router.push('/');
+            alert("registered successfully");
+            this.$router.push("/");
             return true;
           } else {
-          alert("something went wrong!! try again");
+            alert("something went wrong!! try again");
             return false;
           }
         }
-      }
-      else{
-        alert('enter valid email id');
+      } else {
+        alert("enter valid email id");
         return false;
       }
     },
@@ -83,7 +82,7 @@ export default {
     validateEmail(email) {
       const re = /\S+@\S+\.\S+/;
       return re.test(email);
-    }
+    },
   },
 };
 </script>
@@ -138,7 +137,8 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-a input[type="submit"],a input[type='button'] {
+a input[type="submit"],
+a input[type="button"] {
   width: 100%;
   background-color: #f33e42;
   color: white;

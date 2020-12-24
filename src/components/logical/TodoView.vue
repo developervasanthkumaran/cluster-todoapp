@@ -50,13 +50,15 @@
 import MenuBar from "../material/MenuBar.vue";
 import InputBox from "../material/InputBox";
 export default {
-  beforeRouteEnter (to, from, next) {
-   console.log("route enter changed ", from.name, " ", to.name);
-  next(vm=>{vm.currentChildRoute = to.name;});
+  beforeRouteEnter(to, from, next) {
+    console.log("route enter changed ", from.name, " ", to.name);
+    next((vm) => {
+      vm.currentChildRoute = to.name;
+    });
   },
-  beforeRouteLeave(to,from,next){
-console.log("route leave changed ", from.name, " ", to.name);
-next();
+  beforeRouteLeave(to, from, next) {
+    console.log("route leave changed ", from.name, " ", to.name);
+    next();
   },
   beforeRouteUpdate(to, from, next) {
     console.log("route uodate changed ", from.name, " ", to.name);
@@ -77,7 +79,7 @@ next();
     isSubtaskFound() {
       const k = this.currentChildRoute;
       console.log(k);
-      return k === "todoSub" || k==="todoView"? "" : "hidden";
+      return k === "todoSub" || k === "todoView" ? "" : "hidden";
     },
     addLineThrough() {
       return "text-decoration:line-through;text-decoration-color:darkblue;text-decoration-thickness: 3px;";
@@ -117,18 +119,17 @@ next();
     },
     async onMainTaskFinished(maintask) {
       maintask.isCompleted = !maintask.isCompleted;
-      if(maintask){
-              maintask.subtask.forEach((e) => {
-              e.isCompleted = maintask.isCompleted ? true : false;
-            });
-            const payload = {
-              m_id: maintask.m_id,
-              maintask: maintask,
-            };
-            this.$store.dispatch("updateMainTaskAsync", payload);
-            return;
+      if (maintask) {
+        maintask.subtask.forEach((e) => {
+          e.isCompleted = maintask.isCompleted ? true : false;
+        });
+        const payload = {
+          m_id: maintask.m_id,
+          maintask: maintask,
+        };
+        this.$store.dispatch("updateMainTaskAsync", payload);
+        return;
       }
-      
     },
   },
 };
@@ -138,7 +139,7 @@ next();
   height: auto;
   width: auto;
   /* background-color: rgba(173, 216, 230, 0.24); */
-  background-color: #FCF8FF ;
+  background-color: #fcf8ff;
   border-radius: 10px;
   /* border: 1px solid red; */
 }
@@ -158,7 +159,7 @@ next();
   padding: 25px;
   font: 30px;
   /* background-color: rgba(10, 32, 95, 0.952); */
-  background-color: #592D97;
+  background-color: #592d97;
   margin: 5px;
 }
 .div-height {
@@ -182,7 +183,7 @@ input[type="checkbox"]:checked {
   top: 20%;
   left: 25%;
   font-size: 25px;
-  font:italic;
+  font: italic;
   font-weight: 50;
   color: rgba(255, 0, 0, 0.801);
   position: absolute;
