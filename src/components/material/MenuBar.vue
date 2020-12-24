@@ -1,8 +1,8 @@
 <template>
     <div class="menu">
         <div class="menu-items">
-               <router-link to="/"><span>logout</span></router-link>
-                <a><span>{{user}}</span></a>
+               <span class="item" @click="goToLogin">logout</span>
+                <span class="item">{{user}}</span>
         </div>
     </div>
 </template>
@@ -10,10 +10,16 @@
 
 export default {
     name:"MenuBar",
-   props:['user']
+   props:['user'],
+   methods:{
+       goToLogin(){
+           this.$store.commit('toggleUserSession')
+           this.$router.push('/');
+       }
+   }
 };
 </script>
-<style scoped>
+<style>
     .menu{
         height: 10%;
         padding: 10px;
@@ -24,14 +30,18 @@ export default {
         /* border: 1px solid red; */
         /* background-color: #141530; */
     }
-    .menu-items a{
+    .menu-items{
         padding: 12px;
-        margin-right: 50px;
+        margin-right: 40px;
         /* border: 2px solid red; */
         font-size: 20px;
         float:right;
         color: white;
         text-decoration: none;
         
+    }
+
+    .item{
+        padding-right: 20px;
     }
 </style>

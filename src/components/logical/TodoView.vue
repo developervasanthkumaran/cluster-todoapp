@@ -1,5 +1,5 @@
 <template>
-  <menu-bar user="vasanth" />
+  <menu-bar :user="getUsername" />
   <div class="col-4 div-height">
     <div class="todo">
          <div class="todo-input">
@@ -18,11 +18,13 @@
             v-bind:key="m"
           >
             <input type="checkbox" :id="index" @click="onMainTaskFinished(m)" :checked="m.isCompleted">
-            <router-link :to="setRouteWithParams + m.name" >
+            <router-link :to="setRouteWithParams + m.name+'/'+m.m_id" >
                <span :style="m.isCompleted?addLineThrough:''">  {{ m.name }} </span>
             </router-link>
+               <input class="del-btn" type="button" value="delete">
           </div>
           </div>
+
       </div>
     </div>
   </div>
@@ -30,34 +32,39 @@
     <b class="inform" v-if="isSubtaskFound === 'hidden'">click on added main task to add new sub tasks</b>
     <router-view />
   </div>
+ 
 </template>
 <script>
 import MenuBar from "../material/MenuBar.vue";
 import InputBox from "../material/InputBox";
-
 export default {
-  created() {
-    this.$router.afterEach((to) => {this.currentChildRoute = to.name})
+  beforeRouteUpdate(to,from,next){
+    console.log('comp changed ', from.name, " ",to.name);
+      this.currentChildRoute = to.name;
+      next();
   },
   components: {
     "menu-bar": MenuBar,
     "input-box": InputBox,
   },
    computed: {
-    getmaintaskList() {
-      let s = this.$taskList.map((obj) => {
-        return obj.maintask;
-      });
-      return s;
+     getmaintaskList() {
+        return this.$store.getters.getUserTodoList;
     },
     setRouteWithParams(){
       return '/todoSub/'
     },
     isSubtaskFound(){
-     return this.currentChildRoute === 'todoSub'?'':'hidden';
+      return this.currentChildRoute === 'todoSub'?'':'hidden';
     },
     addLineThrough(){
         return "text-decoration:line-through;text-decoration-color:darkblue;text-decoration-thickness: 3px;";
+    },
+    getUsername(){
+      return this.$store.getters.getUserName;
+    },
+    isUserAutheticated(){
+      return this.$store.getters.isUserAutheticated;
     }
   },
   data() {
@@ -69,29 +76,27 @@ export default {
     };
   },
   methods: {
-    addMainTaskToList(val) {
+   async addMainTaskToList(val) {
       if(val.length === 0){alert('empty string found');return;}
-      this.$taskList.push({
-        maintask:{
+      const payload = {
         name:val,
-        noOfSubtasks : 0
-      },
-      subtask:[]
-      });
+        isCompleted:false
+      };
+       this.$store.dispatch("addMainTaskAsync",payload);
     },
     onMainTaskFinished(maintask){
         maintask.isCompleted = !maintask.isCompleted;
         if(maintask){
-           this.$taskList.forEach(obj => {
-            if(obj.maintask.name === maintask.name){
-                obj.subtask.forEach((e)=>{e.hasFinished = maintask.isCompleted?true:false});
+           this.$store.getters.getUserTodoList.forEach(obj => {
+            if(obj.m_id === maintask.m_id){
+                obj.subtask.forEach((e)=>{e.isCompleted = maintask.isCompleted?true:false});
                 return;
             }
         });
         }
     }
   }
-};
+}
 </script>
 <style >
 
@@ -103,7 +108,7 @@ export default {
   /* border: 1px solid red; */
 }
 .todo-inner {
-  height:550px;
+  height:560px;
   overflow:auto;
     background:rgba(255, 255, 255, 0.884);
 }
@@ -115,7 +120,7 @@ export default {
   text-align: left;
 } 
 .todo-item{
-  padding: 15px;
+  padding: 25px;
   font: 30px;
   color: black;
   /* background-color:#1a1f3f; */
@@ -134,6 +139,7 @@ a{
   background-color: rgba(52, 50, 172, 0.281);
   border: 2px solid rgb(52, 50, 172);
 }
+
 input[type="checkbox"]:checked{
   background:red;
 }
@@ -144,6 +150,14 @@ input[type="checkbox"]:checked{
   font-size: 30px;
   color: rgba(255, 0, 0, 0.801);
   position: absolute;
+}
+
+.del-btn{
+  width: 10%;
+  right: 5px;
+  position: absolute;
+  margin: 3px;
+  border: 2px solid red;
 }
 
 </style>

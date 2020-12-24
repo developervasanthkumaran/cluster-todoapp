@@ -1,7 +1,7 @@
 <template >
 
 <div class="textbox">
-    <input :id="input" type="text" v-bind:placeholder="description" v-bind:maxlength="maxLen" required>
+    <input v-bind:id="input" type="text" v-bind:placeholder="description" v-bind:maxlength="maxLen" required>
     <input class="txtbox" type="button" value="Add" @click="callback">
 </div>
 </template>
@@ -19,7 +19,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
 
 .textbox{
     color: black;
@@ -28,15 +28,6 @@ export default {
     padding: 10px;
 }
 
-input[type="text"]{
-  width: 80%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 2px solid #1a1f3f;
-  border-radius: 15px;
-  box-sizing: border-box;
-}
 
 input[type="button"] {
   width: 20%;
@@ -47,6 +38,16 @@ input[type="button"] {
   border: none;
   border-radius: 10px;
   cursor: pointer;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border-radius: 15px;
+  box-sizing: border-box;
 }
 
 

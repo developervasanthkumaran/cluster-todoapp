@@ -6,7 +6,6 @@
 <div class="logo-title">
   Cluster - ToDoApp
   </div>
-
 </router-link>
 <home/>
 </template>

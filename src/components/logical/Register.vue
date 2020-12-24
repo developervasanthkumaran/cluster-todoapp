@@ -41,6 +41,7 @@
   </div>
 </template>
 <script>
+import { postRequest } from '../../main'
 export default {
   name: "Register",
   data() {
@@ -54,8 +55,24 @@ export default {
     async validateUserDetail() {
       let isValidEmail = this.validateEmail(this.email);
       if (isValidEmail) {
-       alert('registered successfully');
-       return true;
+        const payload = {
+          username: this.username,
+          email: this.email,
+          password: this.password,
+        };
+        let statusCode = await postRequest('users/register/',payload);
+        statusCode=statusCode.status;
+        console.log(statusCode);
+        if (statusCode) {
+          if (200 >= statusCode <= 299) {
+          alert("registered successfully");
+            this.$router.push('/');
+            return true;
+          } else {
+          alert("something went wrong!! try again");
+            return false;
+          }
+        }
       }
       else{
         alert('enter valid email id');
@@ -66,7 +83,7 @@ export default {
     validateEmail(email) {
       const re = /\S+@\S+\.\S+/;
       return re.test(email);
-    },
+    }
   },
 };
 </script>
@@ -99,7 +116,7 @@ input::placeholder {
   text-align: center;
 }
 
-input[type="text"],
+/* input[type="text"],
 input[type="password"] {
   width: 100%;
   padding: 12px 20px;
@@ -108,7 +125,7 @@ input[type="password"] {
   border: 2px solid #1a1f3f;
   border-radius: 15px;
   box-sizing: border-box;
-}
+} */
 
 input[type="submit"] {
   width: 100%;
@@ -119,10 +136,6 @@ input[type="submit"] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-}
-
-input[type="submit"]:hover {
-  background-color: #f33e42;
 }
 
 a input[type="submit"],a input[type='button'] {

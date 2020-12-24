@@ -10,7 +10,9 @@
     <div class="todo-inner">
       <div class="todo-items">
         <div class="todo-item clr" v-for="s in getsubTaskList" v-bind:key="s">
-          <input type="checkbox" @click="onSubTaskFinished(s)" :checked="s.hasFinished"> <span :style="s.hasFinished?addLineThrough:''">{{ s.name }}</span>
+          <input type="checkbox" @click="onSubTaskFinished(s)" :checked="s.isCompleted">
+          <span :style="s.isCompleted?addLineThrough:''">{{ s.name }}</span>
+          <input type="button" value="delete">
         </div>
       </div>
     </div>
@@ -18,45 +20,45 @@
 </template>
 <script>
 import InputBox from "../material/InputBox";
-// import TodoSubItem from "./TodoSubItem";
 export default {
   components: {
     "input-box": InputBox,
-    // "todo-sub-item": TodoSubItem,
   },
   methods: {
-    addSubTaskToMainTaskList(val) {
+    async addSubTaskToMainTaskList(val) {
         if(val.length === 0){alert('empty string found');return;}
-      const maintaskName = this.getParams;
-      this.$taskList.find((obj) => {
-        if (obj.maintask.name === maintaskName) {
-          obj.subtask.push({ name: val, hasFinished: false });
+        const m_id = this.getParams.m_id;
+        const payload = {
+          m_id:m_id,
+          sub:{
+            name:val,
+            isCompleted:false
+          }  
         }
-      });
+        this.$store.dispatch('addSubTaskAsync',payload);
+
     },
     setMainTaskName(name){
+        console.log(this.subInput);
         this.SubTaskDescription = "add subtask for "+name;
     },
      onSubTaskFinished(subtask){
          console.log(subtask);
-         subtask.hasFinished = !subtask.hasFinished
+         subtask.isCompleted = !subtask.isCompleted
      }
   },
   computed: {
     getParams() {
-      console.log(this.$route.params);
-      return this.$route.params.mt;
+      const mName = this.$route.params.mName;
+      const m_id = this.$route.params.m_id;
+      return {mName,m_id};
     },
     getsubTaskList() {
-      const maintaskName = this.getParams;
-      console.log(maintaskName);
-      this.setMainTaskName(maintaskName);
-      const subtasks = this.$taskList.find((obj) => {
-        return obj.maintask.name === maintaskName;
-      });
-      console.log(subtasks);
-      const allsubtask = subtasks.subtask
-      return allsubtask?allsubtask:null;
+      const m_id = this.getParams.m_id;
+      this.setMainTaskName(this.getParams.mName);
+     const obj =  this.$store.getters.getUserTodoList.find(item => item.m_id === m_id);
+     console.log('subtask list ', obj, obj.subtask);
+     return obj.subtask;
     },
     addLineThrough(){
         return "text-decoration:line-through;text-decoration-color:darkblue;text-decoration-thickness: 3px;";
