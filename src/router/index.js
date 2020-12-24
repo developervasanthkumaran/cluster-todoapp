@@ -8,23 +8,27 @@ import TodoSub from '../components/logical/TodoSub.vue'
 const routes = [
      {
         path: "/register",
-        name: "registerRoute",
+        name: "register",
         component: Register,
+      
       },
       {
         path: "/",
-        name: "loginRoute",
+        name: "login",
         component: Login,
+      
       },
       {
         path: "/todoView",
         name: "todoView",
         component: TodoView,
+        props:true,
         children:[
-            { path:"/todoSub/:mt",
+            { path:"/todoSub/:mName/:m_id",
               component:TodoSub,
               name:'todoSub',
-              props:true
+              props:true,
+           
             }
         ]
       }
@@ -33,5 +37,6 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),routes
 });
+
 
 export default router;
