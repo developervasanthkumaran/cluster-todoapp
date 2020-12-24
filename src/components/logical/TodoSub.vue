@@ -12,7 +12,7 @@
         <div class="todo-item clr" v-for="s in getsubTaskList" v-bind:key="s">
           <input type="checkbox" @click="onSubTaskFinished(s)" :checked="s.isCompleted">
           <span :style="s.isCompleted?addLineThrough:''">{{ s.name }}</span>
-          <input type="button" value="delete">
+          <input class="del-btn" type="button" value="delete" @click="deleteSubTask(s)">
         </div>
       </div>
     </div>
@@ -38,14 +38,29 @@ export default {
         this.$store.dispatch('addSubTaskAsync',payload);
 
     },
+    async deleteSubTask(s){
+      const mTask_id = this.getParams.m_id;
+      const payload = {
+        m_id:mTask_id,
+        s_id:s.s_id
+      };
+        this.$store.dispatch('deleteSubTaskAsync',payload);
+    },
+     async onSubTaskFinished(subtask){
+         console.log(subtask);
+         subtask.isCompleted = !subtask.isCompleted;
+          const mTask_id = this.getParams.m_id;
+          const payload = {
+          m_id:mTask_id,
+          s_id:subtask.s_id,
+          subtask:subtask
+        };
+        this.$store.dispatch('updateSubTaskAsync',payload);
+     },
     setMainTaskName(name){
         console.log(this.subInput);
-        this.SubTaskDescription = "add subtask for "+name;
-    },
-     onSubTaskFinished(subtask){
-         console.log(subtask);
-         subtask.isCompleted = !subtask.isCompleted
-     }
+        this.SubTaskDescription = "add secondary todos for "+name;
+    }
   },
   computed: {
     getParams() {
@@ -58,7 +73,7 @@ export default {
       this.setMainTaskName(this.getParams.mName);
      const obj =  this.$store.getters.getUserTodoList.find(item => item.m_id === m_id);
      console.log('subtask list ', obj, obj.subtask);
-     return obj.subtask;
+     return obj?obj.subtask:[];
     },
     addLineThrough(){
         return "text-decoration:line-through;text-decoration-color:darkblue;text-decoration-thickness: 3px;";
@@ -67,7 +82,7 @@ export default {
   data() 
   {
     return {
-      SubTaskDescription: "add subtask",
+      SubTaskDescription: "enter your secondary todos",
       subInput: "subtaskInput",
   }
 }
@@ -75,6 +90,7 @@ export default {
 </script>
 <style>
 .clr {
-  background-color: rgba(143, 12, 88, 0.699);
+  background-color: rgba(10, 33, 95, 0.925);
+  color: white;
 }
 </style>

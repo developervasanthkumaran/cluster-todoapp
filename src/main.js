@@ -64,6 +64,38 @@ export const store = createStore({
           dispatch('getTodoListAsync');
         }
      });
+    },
+    async updateMainTaskAsync({dispatch,state},payload){
+      const url = 'users/todolist/maintask/'+state.user_id+'/'+payload.m_id;
+      await putRequest(url,payload.maintask).then((result) => {
+       if(result){
+          dispatch('getTodoListAsync');
+        }
+     });
+    },
+    async updateSubTaskAsync({dispatch,state},payload){
+      const url = 'users/todolist/subtask/'+state.user_id+'/'+payload.m_id+'/'+payload.s_id;
+      await putRequest(url,payload.subtask).then((result) => {
+       if(result){
+          dispatch('getTodoListAsync');
+        }
+     });
+    },
+    async deleteMainTaskAsync({dispatch,state},payload){
+      const url = 'users/todolist/maintask/'+state.user_id+'/'+payload.m_id;
+      await deleteRequest(url,{}).then((result) => {
+       if(result){
+          dispatch('getTodoListAsync');
+        }
+     });
+    },
+    async deleteSubTaskAsync({dispatch,state},payload){
+      const url = 'users/todolist/subtask/'+state.user_id+'/'+payload.m_id+'/'+payload.s_id;
+      await deleteRequest(url,{}).then((result) => {
+       if(result){
+          dispatch('getTodoListAsync');
+        }
+     });
     }
   },
   mutations:{
@@ -126,7 +158,6 @@ export const instance = axios.create({
 export async function postRequest(url,payload){
 return await instance.post(baseUrl+url,payload)
    .then( function(response) {
-    //    console.log(response);
     return response;
    })
    .catch(function (error) {
@@ -137,7 +168,6 @@ return await instance.post(baseUrl+url,payload)
 export async function deleteRequest(url,payload){
   return await instance.delete(baseUrl+url,payload)
      .then( function(response) {
-      //    console.log(response);
       return response;
      })
      .catch(function (error) {
@@ -148,7 +178,6 @@ export async function deleteRequest(url,payload){
   export async function putRequest(url,payload){
     return await instance.put(baseUrl+url,payload)
        .then( function(response) {
-        //    console.log(response);
         return response;
        })
        .catch(function (error) {

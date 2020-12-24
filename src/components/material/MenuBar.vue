@@ -1,8 +1,8 @@
 <template>
     <div class="menu">
         <div class="menu-items">
+            <span class="item uname">welcome {{user}}</span>
                <span class="item" @click="goToLogin">logout</span>
-                <span class="item">{{user}}</span>
         </div>
     </div>
 </template>
@@ -32,8 +32,8 @@ export default {
     }
     .menu-items{
         padding: 12px;
-        margin-right: 40px;
-        /* border: 2px solid red; */
+        right: 10px;
+       
         font-size: 20px;
         float:right;
         color: white;
@@ -42,6 +42,13 @@ export default {
     }
 
     .item{
-        padding-right: 20px;
+        padding: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        margin: 5px;
+    }
+
+    .item:hover:not(.uname){
+        background-color: #f33e414b;
     }
 </style>
