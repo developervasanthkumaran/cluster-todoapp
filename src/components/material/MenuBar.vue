@@ -33,10 +33,9 @@ export default {
     .menu-items{
         padding: 12px;
         right: 10px;
-       
         font-size: 20px;
         float:right;
-        color: white;
+        color: rgba(255, 255, 255, 0.61);
         text-decoration: none;
         
     }
@@ -48,7 +47,11 @@ export default {
         margin: 5px;
     }
 
+    .uname{
+        color: rgb(6, 243, 25);
+    }
+
     .item:hover:not(.uname){
-        background-color: #f33e414b;
+        color: red;
     }
 </style>

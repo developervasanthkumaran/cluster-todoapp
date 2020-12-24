@@ -41,7 +41,7 @@
   </div>
   <div :class="'col-8 div-height ' + isSubtaskFound">
     <b class="inform" v-if="isSubtaskFound === 'hidden'"
-      >click on added main task to add new sub tasks</b
+      >&#128072; select primary todos to add more todos</b
     >
     <router-view />
   </div>
@@ -50,10 +50,17 @@
 import MenuBar from "../material/MenuBar.vue";
 import InputBox from "../material/InputBox";
 export default {
+  beforeRouteEnter (to, from, next) {
+   console.log("route enter changed ", from.name, " ", to.name);
+  next(vm=>{vm.currentChildRoute = to.name;});
+  },
+  beforeRouteLeave(to,from,next){
+console.log("route leave changed ", from.name, " ", to.name);
+next();
+  },
   beforeRouteUpdate(to, from, next) {
-    console.log("comp changed ", from.name, " ", to.name);
+    console.log("route uodate changed ", from.name, " ", to.name);
     this.currentChildRoute = to.name;
-
     next();
   },
   components: {
@@ -68,7 +75,9 @@ export default {
       return "/todoSub/";
     },
     isSubtaskFound() {
-      return this.currentChildRoute === "todoSub" ? "" : "hidden";
+      const k = this.currentChildRoute;
+      console.log(k);
+      return k === "todoSub" || k==="todoView"? "" : "hidden";
     },
     addLineThrough() {
       return "text-decoration:line-through;text-decoration-color:darkblue;text-decoration-thickness: 3px;";
@@ -83,7 +92,7 @@ export default {
   data() {
     return {
       mainInput: "maintaskInput",
-      MainTaskDescription: "enter your primary todos",
+      MainTaskDescription: "add your primary todos",
       maxLength: 50,
       currentChildRoute: "",
     };
@@ -131,7 +140,8 @@ export default {
 .todo {
   height: auto;
   width: auto;
-  background-color: rgba(173, 216, 230, 0.24);
+  /* background-color: rgba(173, 216, 230, 0.24); */
+  background-color: #FCF8FF ;
   border-radius: 10px;
   /* border: 1px solid red; */
 }
@@ -150,7 +160,8 @@ export default {
 .todo-item {
   padding: 25px;
   font: 30px;
-  background-color: rgba(10, 32, 95, 0.952);
+  /* background-color: rgba(10, 32, 95, 0.952); */
+  background-color: #592D97;
   margin: 5px;
 }
 .div-height {
@@ -172,14 +183,16 @@ input[type="checkbox"]:checked {
 
 .inform {
   top: 20%;
-  left: 20%;
-  font-size: 30px;
+  left: 25%;
+  font-size: 25px;
+  font:italic;
+  font-weight: 50;
   color: rgba(255, 0, 0, 0.801);
   position: absolute;
 }
 
 .del-btn {
-  right: -20px;
+  right: -12px;
   width: 85px !important;
   float: right;
   background-color: rgba(226, 14, 14, 0.63) !important;

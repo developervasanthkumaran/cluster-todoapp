@@ -5,6 +5,7 @@ import {createStore} from 'vuex'
 import 'es6-promise/auto'
 import axios from 'axios'
 import  VueAxios  from 'vue-axios'
+import createPersistedState from "vuex-persistedstate";
 
 const user = [
     {
@@ -32,6 +33,7 @@ const user = [
 console.log(user)
 
 export const store = createStore({
+  plugins:[createPersistedState()],
   state () {
     return {
       userTodoList:[],

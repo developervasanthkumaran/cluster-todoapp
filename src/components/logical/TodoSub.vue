@@ -71,9 +71,12 @@ export default {
     getsubTaskList() {
       const m_id = this.getParams.m_id;
       this.setMainTaskName(this.getParams.mName);
-     const obj =  this.$store.getters.getUserTodoList.find(item => item.m_id === m_id);
-     console.log('subtask list ', obj, obj.subtask);
-     return obj?obj.subtask:[];
+      const todoList = this.$store.getters.getUserTodoList;
+      let obj;
+     if(todoList){
+      obj =  this.$store.getters.getUserTodoList.find(item => item.m_id === m_id);
+     }
+      return obj?obj.subtask:[];
     },
     addLineThrough(){
         return "text-decoration:line-through;text-decoration-color:darkblue;text-decoration-thickness: 3px;";
@@ -90,7 +93,8 @@ export default {
 </script>
 <style>
 .clr {
-  background-color: rgba(10, 33, 95, 0.925);
+  /* background-color: rgba(10, 33, 95, 0.925); */
+  background-color: #8958C7;
   color: white;
 }
 </style>

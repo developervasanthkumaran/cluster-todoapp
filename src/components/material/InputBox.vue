@@ -30,7 +30,7 @@ export default {
 
 
 input[type="button"] {
-  width: 20%;
+  width: 100px;
   background-color: #f33e42;
   color: white;
   padding: 12px 20px;
