@@ -117,10 +117,8 @@ next();
     },
     async onMainTaskFinished(maintask) {
       maintask.isCompleted = !maintask.isCompleted;
-      if (maintask) {
-        this.$store.getters.getUserTodoList.forEach((obj) => {
-          if (obj.m_id === maintask.m_id) {
-            obj.subtask.forEach((e) => {
+      if(maintask){
+              maintask.subtask.forEach((e) => {
               e.isCompleted = maintask.isCompleted ? true : false;
             });
             const payload = {
@@ -129,9 +127,8 @@ next();
             };
             this.$store.dispatch("updateMainTaskAsync", payload);
             return;
-          }
-        });
       }
+      
     },
   },
 };
