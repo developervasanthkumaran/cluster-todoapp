@@ -79,7 +79,7 @@ export default {
     isSubtaskFound() {
       const k = this.currentChildRoute;
       console.log(k);
-      return k === "todoSub" || k === "todoView" ? "" : "hidden";
+      return k === "todoSub"  ? "" : "hidden";
     },
     addLineThrough() {
       return "text-decoration:line-through;text-decoration-color:darkblue;text-decoration-thickness: 3px;";
