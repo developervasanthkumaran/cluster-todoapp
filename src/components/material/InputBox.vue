@@ -21,6 +21,7 @@ export default {
   methods: {
     callback() {
       let currentValue = document.getElementById(this.input).value;
+      document.getElementById(this.input).value = "";
       this.$emit("getValue", currentValue);
     },
   },
