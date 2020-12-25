@@ -40,6 +40,10 @@ export default {
         return;
       }
       const m_id = this.getParams.m_id;
+      console.log(m_id);
+      if(!m_id){
+        alert('please enter primary todos');return;
+      }
       const payload = {
         m_id: m_id,
         sub: {
@@ -69,8 +73,8 @@ export default {
       this.$store.dispatch("updateSubTaskAsync", payload);
     },
     setMainTaskName(name) {
-      console.log(this.subInput);
-      this.SubTaskDescription = "add secondary todos for " + name;
+      console.log(this.subInput,'name ',name, name.length);
+      this.SubTaskDescription = "add secondary todos for "+name;
     },
   },
   computed: {
@@ -108,5 +112,6 @@ export default {
   /* background-color: rgba(10, 33, 95, 0.925); */
   background-color: #8958c7;
   color: white;
+  cursor: pointer;
 }
 </style>

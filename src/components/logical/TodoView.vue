@@ -161,6 +161,8 @@ export default {
   /* background-color: rgba(10, 32, 95, 0.952); */
   background-color: #592d97;
   margin: 5px;
+  border-radius: 10px;
+  transition: .1s;
 }
 .div-height {
   position: relative;
@@ -197,5 +199,9 @@ input[type="checkbox"]:checked {
   position: relative;
   padding: 8px !important;
   margin: 1px !important;
+}
+
+.todo-item:hover{
+  border:0px solid rgb(231, 23, 23);
 }
 </style>
